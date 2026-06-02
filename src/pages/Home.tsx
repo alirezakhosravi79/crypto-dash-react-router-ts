@@ -1,22 +1,23 @@
-import CoinCard from '../components/CoinCard';
-import LimitSelector from '../components/LimitSelector';
-import FilterInput from '../components/FilterInput';
-import SortSelector from '../components/SortSelector';
-import type { Coin, SortOption } from '../App';
+import CoinCard from "../components/CoinCard";
+import LimitSelector from "../components/LimitSelector";
+import FilterInput from "../components/FilterInput";
+import SortSelector from "../components/SortSelector";
+
+import type { Coin, SortOption } from "../App";
 
 interface HomeProps {
   coins: Coin[];
   filter: string;
-  setFilter: (filter: string) => void;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
   limit: number;
-  setLimit: (limit: number) => void;
+  setLimit: React.Dispatch<React.SetStateAction<number>>;
   sortBy: SortOption;
-  setSortBy: (sortBy: SortOption) => void;
+  setSortBy: React.Dispatch<React.SetStateAction<SortOption>>;
   loading: boolean;
   error: string | null;
 }
 
-const Home = ({
+function Home({
   coins,
   filter,
   setFilter,
@@ -26,7 +27,7 @@ const Home = ({
   setSortBy,
   loading,
   error,
-}: HomeProps) => {
+}: HomeProps) {
   const filteredCoins = coins
     .filter(
       (coin) =>
@@ -36,16 +37,27 @@ const Home = ({
     .slice()
     .sort((a, b) => {
       switch (sortBy) {
-        case 'market_cap_desc':
+        case "market_cap_desc":
           return b.market_cap - a.market_cap;
-        case 'price_desc':
+
+        case "price_desc":
           return b.current_price - a.current_price;
-        case 'price_asc':
+
+        case "price_asc":
           return a.current_price - b.current_price;
-        case 'change_desc':
-          return b.price_change_percentage_24h - a.price_change_percentage_24h;
-        case 'change_asc':
-          return a.price_change_percentage_24h - b.price_change_percentage_24h;
+
+        case "change_desc":
+          return (
+            b.price_change_percentage_24h -
+            a.price_change_percentage_24h
+          );
+
+        case "change_asc":
+          return (
+            a.price_change_percentage_24h -
+            b.price_change_percentage_24h
+          );
+
         default:
           return 0;
       }
@@ -55,23 +67,40 @@ const Home = ({
     <div>
       <h1>🚀 Crypto Dash</h1>
 
-      <div className='top-controls'>
-        <FilterInput filter={filter} onFilterChange={setFilter} />
-        <LimitSelector limit={limit} onLimitChange={setLimit} />
-        <SortSelector sortBy={sortBy} onSortChange={setSortBy} />
+      <div className="top-controls">
+        <FilterInput
+          filter={filter}
+          onFilterChange={setFilter}
+        />
+
+        <LimitSelector
+          limit={limit}
+          onLimitChange={setLimit}
+        />
+
+        <SortSelector
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
       </div>
 
       {loading && <p>Loading...</p>}
+
       {error && (
-        <div className='error'>
+        <div className="error">
           <p>❌ {error}</p>
         </div>
       )}
 
       {!loading && !error && (
-        <div className='grid'>
+        <div className="grid">
           {filteredCoins.length > 0 ? (
-            filteredCoins.map((coin) => <CoinCard coin={coin} key={coin.id} />)
+            filteredCoins.map((coin) => (
+              <CoinCard
+                key={coin.id}
+                coin={coin}
+              />
+            ))
           ) : (
             <p>No coins match your filter.</p>
           )}
@@ -79,6 +108,6 @@ const Home = ({
       )}
     </div>
   );
-};
+}
 
 export default Home;

@@ -3,17 +3,22 @@ interface FilterInputProps {
   onFilterChange: (value: string) => void;
 }
 
-const FilterInput = ({ filter, onFilterChange }: FilterInputProps) => {
+function FilterInput({
+  filter,
+  onFilterChange,
+}: FilterInputProps) {
   return (
-    <div className='filter'>
+    <div className="filter">
       <input
-        type='text'
-        placeholder='Filter by name or symbol...'
+        type="text"
+        placeholder="Filter by name or symbol..."
         value={filter}
-        onChange={(e) => onFilterChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onFilterChange(e.target.value)
+        }
       />
     </div>
   );
-};
+}
 
 export default FilterInput;
