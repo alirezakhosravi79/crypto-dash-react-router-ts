@@ -1,6 +1,9 @@
+interface FilterInputProps {
+  filter: string;
+  onFilterChange: (value: string) => void;
+}
 
-
-const FilterInput = ({ filter, onFilterChange }) => {
+const FilterInput = ({ filter, onFilterChange }: FilterInputProps) => {
   return (
     <div className='filter'>
       <input
