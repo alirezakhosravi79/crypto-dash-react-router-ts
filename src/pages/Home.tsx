@@ -28,6 +28,7 @@ function Home({
   loading,
   error,
 }: HomeProps) {
+    
   const filteredCoins = coins
     .filter(
       (coin) =>
