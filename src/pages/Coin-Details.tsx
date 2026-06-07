@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import CoinChart from "../components/CoinChart";
 
 const API_URL = import.meta.env.VITE_COIN_API_URL;
 
@@ -17,6 +19,7 @@ const CoinDetailsPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+
     const fetchCoin = async (): Promise<void> => {
       try {
         const res = await fetch(`${API_URL}/${id}`);
@@ -28,7 +31,7 @@ const CoinDetailsPage = () => {
       } finally {
         setLoading(false);
       }
-    };
+    }; 
 
     fetchCoin();
   }, [id]);
@@ -44,7 +47,7 @@ const CoinDetailsPage = () => {
             : "Coin Details"}
         </h1>
 
-        {loading && <p>Loading...</p>}
+        {loading && <Spinner /> } 
         {error && <p className="error">❌ {error}</p>}
 
         {!loading && !error && coin && (
@@ -98,6 +101,8 @@ const CoinDetailsPage = () => {
                 Last Updated: {new Date(coin.last_updated).toLocaleString()}
               </h4>
             </div>
+
+            <CoinChart coinId={coin.id}/>
 
             <div className="coin-details-links">
               {coin.links.homepage[0] && (

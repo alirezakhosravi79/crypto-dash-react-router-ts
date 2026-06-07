@@ -4,6 +4,7 @@ import FilterInput from "../components/FilterInput";
 import SortSelector from "../components/SortSelector";
 
 import type { Coin, SortOption } from "../App";
+import Spinner from "../components/Spinner";
 
 interface HomeProps {
   coins: Coin[];
@@ -85,7 +86,7 @@ function Home({
         />
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <Spinner color='white'/>}
 
       {error && (
         <div className="error">
